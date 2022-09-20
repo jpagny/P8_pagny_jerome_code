@@ -6,7 +6,7 @@ target/
 .mvn*
 mvnw*
 logs/*
-
+.gradle/*
 ### STS ###
 .apt_generated
 .classpath
