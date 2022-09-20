@@ -5,8 +5,10 @@ import gpsUtil.location.Attraction;
 import gpsUtil.location.VisitedLocation;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import rewardCentral.RewardCentral;
+import tourGuide.GeneratorInternalUser;
 import tourGuide.helper.InternalTestHelper;
 import tourGuide.model.UserModel;
 import tripPricer.Provider;
@@ -21,6 +23,13 @@ public class TestTourGuideService {
 
     @Autowired
     private UserService userService;
+
+    private static GeneratorInternalUser generatorInternalUser;
+
+    @BeforeAll
+    static void initialize(){
+        generatorInternalUser = new GeneratorInternalUser();
+    }
 
     @Test
     public void getUserLocation() {

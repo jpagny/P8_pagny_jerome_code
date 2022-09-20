@@ -2,10 +2,12 @@ package tourGuide.service;
 
 import static org.junit.Assert.*;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.*;
+import java.util.stream.IntStream;
 
+import gpsUtil.location.Location;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -22,6 +24,8 @@ public class TestRewardService {
 
 	@Autowired
 	private UserService userService;
+
+
 
 	@Test
 	public void userGetRewards() {
@@ -53,7 +57,7 @@ public class TestRewardService {
 	public void nearAllAttractions() {
 		GpsUtil gpsUtil = new GpsUtil();
 		RewardService rewardService = new RewardService(gpsUtil, new RewardCentral(),userService);
-		rewardService.setProximityBuffer(Integer.MAX_VALUE);
+		//rewardService.setProximityBuffer(Integer.MAX_VALUE);
 
 		InternalTestHelper.setInternalUserNumber(1);
 		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardService,userService);
@@ -64,5 +68,7 @@ public class TestRewardService {
 
 		assertEquals(gpsUtil.getAttractions().size(), userRewardModels.size());
 	}
+
+
 	
 }
