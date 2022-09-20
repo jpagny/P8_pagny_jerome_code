@@ -9,6 +9,7 @@ import gpsUtil.location.VisitedLocation;
 import tourGuide.user.UserReward;
 import tripPricer.Provider;
 
+
 public class User {
 	private final UUID userId;
 	private final String userName;
