@@ -1,4 +1,4 @@
-package tourGuide.user;
+package tourGuide.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import gpsUtil.location.VisitedLocation;
+import tourGuide.user.UserReward;
 import tripPricer.Provider;
 
 public class User {
@@ -16,7 +17,7 @@ public class User {
 	private Date latestLocationTimestamp;
 	private List<VisitedLocation> visitedLocations = new ArrayList<>();
 	private List<UserReward> userRewards = new ArrayList<>();
-	private UserPreferences userPreferences = new UserPreferences();
+	private UserPreference userPreference = new UserPreference();
 	private List<Provider> tripDeals = new ArrayList<>();
 	public User(UUID userId, String userName, String phoneNumber, String emailAddress) {
 		this.userId = userId;
@@ -79,12 +80,12 @@ public class User {
 		return userRewards;
 	}
 	
-	public UserPreferences getUserPreferences() {
-		return userPreferences;
+	public UserPreference getUserPreferences() {
+		return userPreference;
 	}
 	
-	public void setUserPreferences(UserPreferences userPreferences) {
-		this.userPreferences = userPreferences;
+	public void setUserPreferences(UserPreference userPreference) {
+		this.userPreference = userPreference;
 	}
 
 	public VisitedLocation getLastVisitedLocation() {
