@@ -24,7 +24,7 @@ import java.util.stream.IntStream;
 public class TourGuideService {
     private Logger logger = LoggerFactory.getLogger(TourGuideService.class);
     private final GpsUtil gpsUtil;
-    private final RewardsService rewardsService;
+    private final RewardService rewardService;
     private final TripPricer tripPricer = new TripPricer();
     public final Tracker tracker;
 
@@ -34,9 +34,9 @@ public class TourGuideService {
     boolean testMode = true;
 
 
-    public TourGuideService(GpsUtil gpsUtil, RewardsService rewardsService, UserService userService) {
+    public TourGuideService(GpsUtil gpsUtil, RewardService rewardService, UserService userService) {
         this.gpsUtil = gpsUtil;
-        this.rewardsService = rewardsService;
+        this.rewardService = rewardService;
         this.userService = userService;
 
         if (testMode) {
@@ -86,14 +86,14 @@ public class TourGuideService {
     public VisitedLocation trackUserLocation(UserModel userModel) {
         VisitedLocation visitedLocation = gpsUtil.getUserLocation(userModel.getUserId());
         userService.addToVisitedLocations(visitedLocation);
-        rewardsService.calculateRewards(userModel);
+        rewardService.calculateRewards(userModel);
         return visitedLocation;
     }
 
     public List<Attraction> getNearByAttractions(VisitedLocation visitedLocation) {
         List<Attraction> nearbyAttractions = new ArrayList<>();
         for (Attraction attraction : gpsUtil.getAttractions()) {
-            if (rewardsService.isWithinAttractionProximity(attraction, visitedLocation.location)) {
+            if (rewardService.isWithinAttractionProximity(attraction, visitedLocation.location)) {
                 nearbyAttractions.add(attraction);
             }
         }

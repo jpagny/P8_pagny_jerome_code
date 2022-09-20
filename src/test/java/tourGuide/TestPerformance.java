@@ -17,7 +17,7 @@ import gpsUtil.location.VisitedLocation;
 import org.springframework.beans.factory.annotation.Autowired;
 import rewardCentral.RewardCentral;
 import tourGuide.helper.InternalTestHelper;
-import tourGuide.service.RewardsService;
+import tourGuide.service.RewardService;
 import tourGuide.service.TourGuideService;
 import tourGuide.model.UserModel;
 import tourGuide.service.UserService;
@@ -51,10 +51,10 @@ public class TestPerformance {
 	@Test
 	public void highVolumeTrackLocation() {
 		GpsUtil gpsUtil = new GpsUtil();
-		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral(),userService);
+		RewardService rewardService = new RewardService(gpsUtil, new RewardCentral(),userService);
 		// Users should be incremented up to 100,000, and test finishes within 15 minutes
 		InternalTestHelper.setInternalUserNumber(100);
-		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService,userService);
+		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardService,userService);
 
 		List<UserModel> allUserModels = new ArrayList<>();
 		allUserModels = tourGuideService.getAllUsers();
@@ -75,20 +75,20 @@ public class TestPerformance {
 	@Test
 	public void highVolumeGetRewards() {
 		GpsUtil gpsUtil = new GpsUtil();
-		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral(),userService);
+		RewardService rewardService = new RewardService(gpsUtil, new RewardCentral(),userService);
 
 		// Users should be incremented up to 100,000, and test finishes within 20 minutes
 		InternalTestHelper.setInternalUserNumber(100);
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
-		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService,userService);
+		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardService,userService);
 		
 	    Attraction attraction = gpsUtil.getAttractions().get(0);
 		List<UserModel> allUserModels = new ArrayList<>();
 		allUserModels = tourGuideService.getAllUsers();
 		allUserModels.forEach(u -> userService.addToVisitedLocations(new VisitedLocation(u.getUserId(), attraction, new Date())));
 	     
-	    allUserModels.forEach(u -> rewardsService.calculateRewards(u));
+	    allUserModels.forEach(u -> rewardService.calculateRewards(u));
 	    
 		for(UserModel userModel : allUserModels) {
 			assertTrue(userModel.getUserRewardModels().size() > 0);

@@ -18,7 +18,7 @@ import tourGuide.helper.InternalTestHelper;
 import tourGuide.model.UserModel;
 import tourGuide.model.UserRewardModel;
 
-public class TestRewardsService {
+public class TestRewardService {
 
 	@Autowired
 	private UserService userService;
@@ -26,10 +26,10 @@ public class TestRewardsService {
 	@Test
 	public void userGetRewards() {
 		GpsUtil gpsUtil = new GpsUtil();
-		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral(),userService);
+		RewardService rewardService = new RewardService(gpsUtil, new RewardCentral(),userService);
 
 		InternalTestHelper.setInternalUserNumber(0);
-		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService,userService);
+		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardService,userService);
 		
 		UserModel userModel = new UserModel(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		Attraction attraction = gpsUtil.getAttractions().get(0);
@@ -43,22 +43,22 @@ public class TestRewardsService {
 	@Test
 	public void isWithinAttractionProximity() {
 		GpsUtil gpsUtil = new GpsUtil();
-		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral(),userService);
+		RewardService rewardService = new RewardService(gpsUtil, new RewardCentral(),userService);
 		Attraction attraction = gpsUtil.getAttractions().get(0);
-		assertTrue(rewardsService.isWithinAttractionProximity(attraction, attraction));
+		assertTrue(rewardService.isWithinAttractionProximity(attraction, attraction));
 	}
 	
 	@Ignore // Needs fixed - can throw ConcurrentModificationException
 	@Test
 	public void nearAllAttractions() {
 		GpsUtil gpsUtil = new GpsUtil();
-		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral(),userService);
-		rewardsService.setProximityBuffer(Integer.MAX_VALUE);
+		RewardService rewardService = new RewardService(gpsUtil, new RewardCentral(),userService);
+		rewardService.setProximityBuffer(Integer.MAX_VALUE);
 
 		InternalTestHelper.setInternalUserNumber(1);
-		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService,userService);
+		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardService,userService);
 		
-		rewardsService.calculateRewards(tourGuideService.getAllUsers().get(0));
+		rewardService.calculateRewards(tourGuideService.getAllUsers().get(0));
 		List<UserRewardModel> userRewardModels = tourGuideService.getUserRewards(tourGuideService.getAllUsers().get(0));
 		tourGuideService.tracker.stopTracking();
 

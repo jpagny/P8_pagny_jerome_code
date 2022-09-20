@@ -1,13 +1,12 @@
 package tourGuide.configuration;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import gpsUtil.GpsUtil;
 import rewardCentral.RewardCentral;
-import tourGuide.service.RewardsService;
+import tourGuide.service.RewardService;
 import tourGuide.service.UserService;
 
 @Configuration
@@ -22,8 +21,8 @@ public class ModuleConfiguration {
 	}
 	
 	@Bean
-	public RewardsService getRewardsService() {
-		return new RewardsService(getGpsUtil(), getRewardCentral(), userService);
+	public RewardService getRewardsService() {
+		return new RewardService(getGpsUtil(), getRewardCentral(), userService);
 	}
 	
 	@Bean
