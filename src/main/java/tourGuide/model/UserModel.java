@@ -4,7 +4,6 @@ import gpsUtil.location.VisitedLocation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Component;
-import tourGuide.user.UserReward;
 import tripPricer.Provider;
 
 import java.util.ArrayList;
@@ -23,19 +22,19 @@ public class UserModel {
     private String emailAddress;
     private Date latestLocationTimestamp;
     private List<VisitedLocation> visitedLocations = new ArrayList<>();
-    private List<UserReward> userRewards = new ArrayList<>();
-    private UserPreference userPreference = new UserPreference();
+    private List<UserRewardModel> userRewardModels = new ArrayList<>();
+    private UserPreferenceModel userPreferenceModel = new UserPreferenceModel();
     private List<Provider> tripDeals = new ArrayList<>();
-
-    public UserModel(){
-
-    }
 
     public UserModel(UUID userId, String userName, String phoneNumber, String emailAddress) {
         this.userId = userId;
         this.userName = userName;
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;
+    }
+
+    public UserModel() {
+
     }
 
 }

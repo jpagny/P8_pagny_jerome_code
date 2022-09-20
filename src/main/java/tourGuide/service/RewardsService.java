@@ -2,7 +2,6 @@ package tourGuide.service;
 
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import gpsUtil.GpsUtil;
@@ -11,7 +10,7 @@ import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
 import rewardCentral.RewardCentral;
 import tourGuide.model.UserModel;
-import tourGuide.user.UserReward;
+import tourGuide.model.UserRewardModel;
 
 @Service
 public class RewardsService {
@@ -48,9 +47,9 @@ public class RewardsService {
 		
 		for(VisitedLocation visitedLocation : userLocations) {
 			for(Attraction attraction : attractions) {
-				if(userModel.getUserRewards().stream().filter(r -> r.attraction.attractionName.equals(attraction.attractionName)).count() == 0) {
+				if(userModel.getUserRewardModels().stream().filter(r -> r.attraction.attractionName.equals(attraction.attractionName)).count() == 0) {
 					if(nearAttraction(visitedLocation, attraction)) {
-						userService.addUserReward(new UserReward(visitedLocation, attraction, getRewardPoints(attraction, userModel)));
+						userService.addUserReward(new UserRewardModel(visitedLocation, attraction, getRewardPoints(attraction, userModel)));
 					}
 				}
 			}

@@ -4,15 +4,13 @@ import gpsUtil.GpsUtil;
 import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
-import lombok.AllArgsConstructor;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import tourGuide.helper.InternalTestHelper;
 import tourGuide.model.UserModel;
 import tourGuide.tracker.Tracker;
-import tourGuide.user.UserReward;
+import tourGuide.model.UserRewardModel;
 import tripPricer.Provider;
 import tripPricer.TripPricer;
 
@@ -41,7 +39,7 @@ public class TourGuideService {
         this.rewardsService = rewardsService;
         this.userService = userService;
 
-        if(testMode) {
+        if (testMode) {
             logger.info("TestMode enabled");
             logger.debug("Initializing users");
             initializeInternalUsers();
@@ -52,8 +50,8 @@ public class TourGuideService {
     }
 
 
-    public List<UserReward> getUserRewards(UserModel userModel) {
-        return userModel.getUserRewards();
+    public List<UserRewardModel> getUserRewards(UserModel userModel) {
+        return userModel.getUserRewardModels();
     }
 
     public VisitedLocation getUserLocation(UserModel userModel) {
@@ -78,9 +76,9 @@ public class TourGuideService {
     }
 
     public List<Provider> getTripDeals(UserModel userModel) {
-        int cumulatativeRewardPoints = userModel.getUserRewards().stream().mapToInt(i -> i.getRewardPoints()).sum();
-        List<Provider> providers = tripPricer.getPrice(tripPricerApiKey, userModel.getUserId(), userModel.getUserPreference().getNumberOfAdults(),
-                userModel.getUserPreference().getNumberOfChildren(), userModel.getUserPreference().getTripDuration(), cumulatativeRewardPoints);
+        int cumulatativeRewardPoints = userModel.getUserRewardModels().stream().mapToInt(i -> i.getRewardPoints()).sum();
+        List<Provider> providers = tripPricer.getPrice(tripPricerApiKey, userModel.getUserId(), userModel.getUserPreferenceModel().getNumberOfAdults(),
+                userModel.getUserPreferenceModel().getNumberOfChildren(), userModel.getUserPreferenceModel().getTripDuration(), cumulatativeRewardPoints);
         userModel.setTripDeals(providers);
         return providers;
     }
@@ -122,6 +120,7 @@ public class TourGuideService {
 
     private void initializeInternalUsers() {
         IntStream.range(0, InternalTestHelper.getInternalUserNumber()).forEach(i -> {
+            logger.debug("internalUser" +i);
             String userName = "internalUser" + i;
             String phone = "000";
             String email = userName + "@tourGuide.com";

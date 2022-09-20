@@ -4,14 +4,13 @@ import gpsUtil.location.VisitedLocation;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tourGuide.model.UserModel;
-import tourGuide.user.UserReward;
+import tourGuide.model.UserRewardModel;
 
 @Service
 @AllArgsConstructor
 public class UserService {
 
     private final UserModel userModel;
-
 
     public void addToVisitedLocations(VisitedLocation visitedLocation) {
         userModel.getVisitedLocations().add(visitedLocation);
@@ -21,9 +20,9 @@ public class UserService {
         userModel.getVisitedLocations().clear();
     }
 
-    public void addUserReward(UserReward userReward) {
-        if (userModel.getUserRewards().stream().filter(theReward -> !theReward.attraction.attractionName.equals(userReward.attraction)).count() == 0) {
-            userModel.getUserRewards().add(userReward);
+    public void addUserReward(UserRewardModel userRewardModel) {
+        if (userModel.getUserRewardModels().stream().filter(theReward -> !theReward.attraction.attractionName.equals(userRewardModel.attraction)).count() == 0) {
+            userModel.getUserRewardModels().add(userRewardModel);
         }
     }
 
