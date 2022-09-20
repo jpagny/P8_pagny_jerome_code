@@ -11,7 +11,7 @@ import com.jsoniter.output.JsonStream;
 
 import gpsUtil.location.VisitedLocation;
 import tourGuide.service.TourGuideService;
-import tourGuide.entity.User;
+import tourGuide.model.UserModel;
 import tripPricer.Provider;
 
 @RestController
@@ -72,7 +72,7 @@ public class TourGuideController {
     	return JsonStream.serialize(providers);
     }
     
-    private User getUser(String userName) {
+    private UserModel getUser(String userName) {
     	return tourGuideService.getUser(userName);
     }
    

@@ -18,7 +18,7 @@ import rewardCentral.RewardCentral;
 import tourGuide.helper.InternalTestHelper;
 import tourGuide.service.RewardsService;
 import tourGuide.service.TourGuideService;
-import tourGuide.entity.User;
+import tourGuide.model.UserModel;
 
 public class TestPerformance {
 	
@@ -51,13 +51,13 @@ public class TestPerformance {
 		InternalTestHelper.setInternalUserNumber(100);
 		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
 
-		List<User> allUsers = new ArrayList<>();
-		allUsers = tourGuideService.getAllUsers();
+		List<UserModel> allUserModels = new ArrayList<>();
+		allUserModels = tourGuideService.getAllUsers();
 		
 	    StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
-		for(User user : allUsers) {
-			tourGuideService.trackUserLocation(user);
+		for(UserModel userModel : allUserModels) {
+			tourGuideService.trackUserLocation(userModel);
 		}
 		stopWatch.stop();
 		tourGuideService.tracker.stopTracking();
@@ -79,14 +79,14 @@ public class TestPerformance {
 		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
 		
 	    Attraction attraction = gpsUtil.getAttractions().get(0);
-		List<User> allUsers = new ArrayList<>();
-		allUsers = tourGuideService.getAllUsers();
-		allUsers.forEach(u -> u.addToVisitedLocations(new VisitedLocation(u.getUserId(), attraction, new Date())));
+		List<UserModel> allUserModels = new ArrayList<>();
+		allUserModels = tourGuideService.getAllUsers();
+		allUserModels.forEach(u -> u.addToVisitedLocations(new VisitedLocation(u.getUserId(), attraction, new Date())));
 	     
-	    allUsers.forEach(u -> rewardsService.calculateRewards(u));
+	    allUserModels.forEach(u -> rewardsService.calculateRewards(u));
 	    
-		for(User user : allUsers) {
-			assertTrue(user.getUserRewards().size() > 0);
+		for(UserModel userModel : allUserModels) {
+			assertTrue(userModel.getUserRewards().size() > 0);
 		}
 		stopWatch.stop();
 		tourGuideService.tracker.stopTracking();
